@@ -4,7 +4,6 @@ import { useState } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { PageHero } from "@/components/shared/PageHero";
-import { motion, AnimatePresence } from "framer-motion";
 
 const GALLERY_ITEMS = [
   { id: 1, category: "sunsets", label: "Golden sunset over Comino" },
@@ -65,7 +64,7 @@ export default function GalleryPage() {
       <section className="py-20 bg-sand-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Filters */}
-          <AnimatedReveal variant="fadeUp">
+          <AnimatedReveal>
             <div className="flex flex-wrap justify-center gap-2">
               {CATEGORIES.map((cat) => (
                 <button
@@ -84,110 +83,82 @@ export default function GalleryPage() {
           </AnimatedReveal>
 
           {/* Grid */}
-          <motion.div
-            layout
-            className="mt-12 columns-1 gap-4 sm:columns-2 lg:columns-3"
-          >
-            <AnimatePresence mode="popLayout">
-              {filtered.map((item, i) => {
-                const isLandscape = i % 3 !== 1;
-                return (
-                  <motion.div
-                    key={item.id}
-                    layout
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.4, delay: i * 0.03 }}
-                  >
-                    <button
-                      onClick={() =>
-                        setLightboxIndex(
-                          GALLERY_ITEMS.findIndex((g) => g.id === item.id)
-                        )
-                      }
-                      className={`group relative mb-4 w-full overflow-hidden rounded-xl ${
-                        isLandscape ? "aspect-[4/3]" : "aspect-[3/4]"
-                      } bg-gradient-to-br ${GRADIENTS[item.id - 1]} cursor-pointer`}
-                    >
-                      <div className="absolute inset-0 bg-black/0 transition-all duration-500 group-hover:bg-black/20" />
-                      <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105" />
-                      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <p className="text-sm font-medium text-white">
-                          {item.label}
-                        </p>
-                      </div>
-                    </button>
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
-          </motion.div>
+          <div className="mt-12 columns-1 gap-4 sm:columns-2 lg:columns-3">
+            {filtered.map((item, i) => {
+              const isLandscape = i % 3 !== 1;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() =>
+                    setLightboxIndex(
+                      GALLERY_ITEMS.findIndex((g) => g.id === item.id)
+                    )
+                  }
+                  className={`group relative mb-4 w-full overflow-hidden rounded-xl ${
+                    isLandscape ? "aspect-[4/3]" : "aspect-[3/4]"
+                  } bg-gradient-to-br ${GRADIENTS[item.id - 1]} cursor-pointer transition-transform duration-300 hover:scale-[1.02]`}
+                >
+                  <div className="absolute inset-0 bg-black/0 transition-all duration-300 group-hover:bg-black/20" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <p className="text-sm font-medium text-white">
+                      {item.label}
+                    </p>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </section>
 
       {/* Lightbox */}
-      <AnimatePresence>
-        {lightboxIndex !== null && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 backdrop-blur-md"
+      {lightboxIndex !== null && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 backdrop-blur-md">
+          <button
+            onClick={() => setLightboxIndex(null)}
+            className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors rounded-full p-2 hover:bg-white/10"
+            aria-label="Close lightbox"
           >
-            <button
-              onClick={() => setLightboxIndex(null)}
-              className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors rounded-full p-2 hover:bg-white/10"
-              aria-label="Close lightbox"
-            >
-              <X className="h-7 w-7" />
-            </button>
+            <X className="h-7 w-7" />
+          </button>
 
-            <button
-              onClick={() =>
-                setLightboxIndex(
-                  (lightboxIndex - 1 + GALLERY_ITEMS.length) %
-                    GALLERY_ITEMS.length
-                )
-              }
-              className="absolute left-4 text-white/50 hover:text-white transition-colors rounded-full p-2 hover:bg-white/10"
-              aria-label="Previous image"
-            >
-              <ChevronLeft className="h-10 w-10" />
-            </button>
+          <button
+            onClick={() =>
+              setLightboxIndex(
+                (lightboxIndex - 1 + GALLERY_ITEMS.length) %
+                  GALLERY_ITEMS.length
+              )
+            }
+            className="absolute left-4 text-white/50 hover:text-white transition-colors rounded-full p-2 hover:bg-white/10"
+            aria-label="Previous image"
+          >
+            <ChevronLeft className="h-10 w-10" />
+          </button>
 
-            <motion.div
-              key={lightboxIndex}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
-              className="mx-16 max-w-4xl w-full"
+          <div className="mx-16 max-w-4xl w-full">
+            <div
+              className={`aspect-[4/3] rounded-2xl bg-gradient-to-br ${GRADIENTS[GALLERY_ITEMS[lightboxIndex].id - 1]} flex items-center justify-center shadow-2xl`}
             >
-              <div
-                className={`aspect-[4/3] rounded-2xl bg-gradient-to-br ${GRADIENTS[GALLERY_ITEMS[lightboxIndex].id - 1]} flex items-center justify-center shadow-2xl`}
-              >
-                <p className="text-xl font-medium text-white/80">
-                  {GALLERY_ITEMS[lightboxIndex].label}
-                </p>
-              </div>
-              <p className="mt-4 text-center text-sm text-white/40">
-                {lightboxIndex + 1} / {GALLERY_ITEMS.length}
+              <p className="text-xl font-medium text-white/80">
+                {GALLERY_ITEMS[lightboxIndex].label}
               </p>
-            </motion.div>
+            </div>
+            <p className="mt-4 text-center text-sm text-white/40">
+              {lightboxIndex + 1} / {GALLERY_ITEMS.length}
+            </p>
+          </div>
 
-            <button
-              onClick={() =>
-                setLightboxIndex((lightboxIndex + 1) % GALLERY_ITEMS.length)
-              }
-              className="absolute right-4 text-white/50 hover:text-white transition-colors rounded-full p-2 hover:bg-white/10"
-              aria-label="Next image"
-            >
-              <ChevronRight className="h-10 w-10" />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          <button
+            onClick={() =>
+              setLightboxIndex((lightboxIndex + 1) % GALLERY_ITEMS.length)
+            }
+            className="absolute right-4 text-white/50 hover:text-white transition-colors rounded-full p-2 hover:bg-white/10"
+            aria-label="Next image"
+          >
+            <ChevronRight className="h-10 w-10" />
+          </button>
+        </div>
+      )}
     </>
   );
 }

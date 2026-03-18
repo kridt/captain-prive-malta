@@ -49,7 +49,7 @@ export function ConfirmationPageContent() {
       {/* Content */}
       <section className="py-16 bg-sand-50">
         <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
-          <AnimatedReveal variant="scaleUp">
+          <AnimatedReveal>
             <div className="text-center">
               <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-100 animate-scale-in">
                 <CheckCircle className="h-10 w-10 text-green-600" />

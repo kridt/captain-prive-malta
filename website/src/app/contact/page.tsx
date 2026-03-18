@@ -43,7 +43,7 @@ export default function ContactPage() {
           <div className="grid gap-16 lg:grid-cols-5">
             {/* Form */}
             <div className="lg:col-span-3">
-              <AnimatedReveal variant="fadeLeft">
+              <AnimatedReveal>
                 {submitted ? (
                   <div className="rounded-2xl bg-white p-12 text-center shadow-sm border border-sand-200/50">
                     <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
@@ -183,7 +183,7 @@ export default function ContactPage() {
 
             {/* Contact Info */}
             <div className="lg:col-span-2">
-              <AnimatedReveal variant="fadeRight" delay={200}>
+              <AnimatedReveal delay={200}>
                 <div className="space-y-6">
                   <div>
                     <h2 className="font-serif text-2xl font-bold text-navy-500">

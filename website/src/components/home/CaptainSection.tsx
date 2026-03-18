@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
@@ -12,7 +10,7 @@ export function CaptainSection() {
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-16 lg:grid-cols-2">
-          <AnimatedReveal variant="fadeLeft">
+          <AnimatedReveal>
             <div className="relative">
               <div className="aspect-[3/4] max-w-md mx-auto lg:mx-0 overflow-hidden rounded-2xl bg-gradient-to-br from-navy-300 to-sea-400 shadow-2xl">
                 {/* Captain photo placeholder */}
@@ -25,7 +23,7 @@ export function CaptainSection() {
             </div>
           </AnimatedReveal>
 
-          <AnimatedReveal variant="fadeRight" delay={200}>
+          <AnimatedReveal delay={200}>
             <div>
               <span className="inline-block text-xs font-semibold uppercase tracking-[0.25em] text-gold-500">
                 Meet Your Captain

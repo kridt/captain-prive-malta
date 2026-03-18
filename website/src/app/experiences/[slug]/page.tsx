@@ -1,17 +1,31 @@
-"use client";
-
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound, useParams } from "next/navigation";
+import { notFound } from "next/navigation";
 import { PACKAGES, ADD_ONS, formatPrice } from "@/lib/constants";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { PageHero } from "@/components/shared/PageHero";
 import { Clock, Users, Check, ArrowRight, Star } from "lucide-react";
-import { motion } from "framer-motion";
 
-export default function ExperienceDetailPage() {
-  const params = useParams();
-  const slug = params.slug as string;
+interface Props {
+  params: Promise<{ slug: string }>;
+}
+
+export async function generateStaticParams() {
+  return PACKAGES.map((pkg) => ({ slug: pkg.slug }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const pkg = PACKAGES.find((p) => p.slug === slug);
+  if (!pkg) return {};
+  return {
+    title: pkg.name,
+    description: pkg.description,
+  };
+}
+
+export default async function ExperienceDetailPage({ params }: Props) {
+  const { slug } = await params;
   const pkg = PACKAGES.find((p) => p.slug === slug);
   if (!pkg) notFound();
 
@@ -19,16 +33,20 @@ export default function ExperienceDetailPage() {
 
   return (
     <>
-      {/* Hero */}
-      <PageHero label={
-        pkg.category === "romantic"
-          ? "Romantic"
-          : pkg.category === "adventure"
-            ? "Adventure"
-            : pkg.category === "group"
-              ? "Group Experience"
-              : "Custom"
-      } title={pkg.name} description={pkg.tagline}>
+      <PageHero
+        label={
+          pkg.category === "romantic"
+            ? "Romantic"
+            : pkg.category === "adventure"
+              ? "Adventure"
+              : pkg.category === "group"
+                ? "Group Experience"
+                : "Custom"
+        }
+        title={pkg.name}
+        description={pkg.tagline}
+        size="large"
+      >
         <div className="mt-6 flex items-center justify-center gap-6 text-sm text-white/60">
           <span className="flex items-center gap-2">
             <Clock className="h-4 w-4" />
@@ -139,7 +157,7 @@ export default function ExperienceDetailPage() {
             {/* Sidebar - Booking Card */}
             <div className="lg:col-span-1">
               <div className="sticky top-24">
-                <AnimatedReveal variant="fadeRight">
+                <AnimatedReveal>
                   <div className="rounded-2xl bg-white p-6 shadow-lg border border-sand-200/50">
                     <div className="text-center">
                       <p className="text-sm text-navy-300">Starting from</p>
@@ -194,37 +212,32 @@ export default function ExperienceDetailPage() {
 
           {/* Related */}
           <div className="mt-24">
-            <AnimatedReveal variant="blurIn">
+            <AnimatedReveal>
               <h2 className="font-serif text-2xl font-bold text-navy-500">
                 You Might Also Love
               </h2>
             </AnimatedReveal>
             <div className="mt-8 grid gap-8 md:grid-cols-2">
               {otherPackages.map((other, i) => (
-                <AnimatedReveal key={other.slug} delay={i * 150}>
-                  <motion.div
-                    whileHover={{ y: -4 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                <AnimatedReveal key={other.slug} delay={i * 100}>
+                  <Link
+                    href={`/experiences/${other.slug}`}
+                    className="card-premium group flex overflow-hidden rounded-2xl bg-white shadow-sm border border-sand-200/50"
                   >
-                    <Link
-                      href={`/experiences/${other.slug}`}
-                      className="group flex overflow-hidden rounded-2xl bg-white shadow-sm border border-sand-200/50 transition-shadow duration-500 hover:shadow-lg"
-                    >
-                      <div className="w-1/3 bg-gradient-to-br from-navy-400 to-sea-500 shrink-0 transition-transform duration-700 group-hover:scale-[1.02]" />
-                      <div className="p-6">
-                        <h3 className="font-serif text-lg font-bold text-navy-500 group-hover:text-gold-600 transition-colors duration-300">
-                          {other.name}
-                        </h3>
-                        <p className="mt-1 text-sm text-navy-300 line-clamp-2">
-                          {other.tagline}
-                        </p>
-                        <div className="mt-3 flex items-center gap-1 text-sm font-medium text-gold-500">
-                          From {formatPrice(other.price)}
-                          <ArrowRight className="h-3.5 w-3.5 ml-1 transition-transform duration-300 group-hover:translate-x-2" />
-                        </div>
+                    <div className="w-1/3 bg-gradient-to-br from-navy-400 to-sea-500 shrink-0" />
+                    <div className="p-6">
+                      <h3 className="font-serif text-lg font-bold text-navy-500 group-hover:text-gold-600 transition-colors duration-300">
+                        {other.name}
+                      </h3>
+                      <p className="mt-1 text-sm text-navy-300 line-clamp-2">
+                        {other.tagline}
+                      </p>
+                      <div className="mt-3 flex items-center gap-1 text-sm font-medium text-gold-500">
+                        From {formatPrice(other.price)}
+                        <ArrowRight className="h-3.5 w-3.5 ml-1 transition-transform duration-300 group-hover:translate-x-2" />
                       </div>
-                    </Link>
-                  </motion.div>
+                    </div>
+                  </Link>
                 </AnimatedReveal>
               ))}
             </div>

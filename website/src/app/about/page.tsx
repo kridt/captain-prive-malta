@@ -20,7 +20,7 @@ export default function AboutPage() {
       <section className="py-28 bg-sand-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-center gap-16 lg:grid-cols-2">
-            <AnimatedReveal variant="fadeLeft">
+            <AnimatedReveal>
               <div className="relative">
                 <div className="aspect-[3/4] max-w-lg mx-auto overflow-hidden rounded-2xl bg-gradient-to-br from-navy-300 to-sea-400 shadow-2xl">
                   <div className="flex h-full items-center justify-center text-white/50 text-sm">
@@ -31,7 +31,7 @@ export default function AboutPage() {
               </div>
             </AnimatedReveal>
 
-            <AnimatedReveal variant="fadeRight" delay={200}>
+            <AnimatedReveal delay={200}>
               <div>
                 <span className="inline-block text-xs font-semibold uppercase tracking-[0.25em] text-gold-500">
                   Meet Your Captain
@@ -80,7 +80,7 @@ export default function AboutPage() {
       {/* Values */}
       <section className="py-28 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <AnimatedReveal variant="blurIn">
+          <AnimatedReveal>
             <SectionHeading
               label="Our Values"
               title="What Guides Every Journey"
@@ -127,7 +127,7 @@ export default function AboutPage() {
                   "Each package is designed to evoke emotion: romance, celebration, serenity, or discovery.",
               },
             ].map((value, i) => (
-              <AnimatedReveal key={value.title} delay={i * 100} variant="scaleUp">
+              <AnimatedReveal key={value.title} delay={i * 100}>
                 <div className="group rounded-2xl border border-sand-200/50 bg-white p-8 transition-all duration-500 hover:border-gold-200 hover:shadow-lg hover:shadow-gold-100/30">
                   <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-400/0 to-transparent transition-all duration-500 group-hover:via-gold-400/60" />
                   <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-gold-50 to-gold-100 transition-all duration-500 group-hover:shadow-lg group-hover:shadow-gold-200/50">
@@ -150,7 +150,7 @@ export default function AboutPage() {
       <section className="py-28 bg-sand-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-center gap-16 lg:grid-cols-2">
-            <AnimatedReveal variant="fadeLeft">
+            <AnimatedReveal>
               <div>
                 <span className="inline-block text-xs font-semibold uppercase tracking-[0.25em] text-gold-500">
                   Your Vessel
@@ -185,7 +185,7 @@ export default function AboutPage() {
               </div>
             </AnimatedReveal>
 
-            <AnimatedReveal variant="fadeRight" delay={200}>
+            <AnimatedReveal delay={200}>
               <div className="relative">
                 <div className="aspect-video overflow-hidden rounded-2xl bg-gradient-to-br from-sea-300 to-navy-400 shadow-2xl">
                   <div className="flex h-full items-center justify-center text-white/50 text-sm">
@@ -210,7 +210,7 @@ export default function AboutPage() {
           </svg>
         </div>
         <div className="relative z-10 mx-auto max-w-4xl px-4 text-center">
-          <AnimatedReveal variant="scaleUp">
+          <AnimatedReveal>
             <span className="inline-block text-xs font-semibold uppercase tracking-[0.25em] text-gold-400/80">
               Your Journey Awaits
             </span>

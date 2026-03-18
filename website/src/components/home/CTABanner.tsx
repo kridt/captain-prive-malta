@@ -1,8 +1,5 @@
-"use client";
-
 import Link from "next/link";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
-import { motion } from "framer-motion";
 
 export function CTABanner() {
   return (
@@ -11,12 +8,8 @@ export function CTABanner() {
       <div className="absolute inset-0 bg-navy-900" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#1a2744_0%,_#0c1425_80%)]" />
 
-      {/* Ambient light */}
-      <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-gold-500/5 blur-3xl"
-        animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      />
+      {/* Ambient glow — CSS only */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-gold-500/5 blur-3xl animate-pulse-soft" />
 
       {/* Top wave */}
       <div className="absolute top-0 left-0 right-0">
@@ -26,7 +19,7 @@ export function CTABanner() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-4xl px-4 text-center">
-        <AnimatedReveal variant="scaleUp">
+        <AnimatedReveal>
           <span className="inline-block text-xs font-semibold uppercase tracking-[0.25em] text-gold-400/80">
             Your Journey Awaits
           </span>
@@ -40,7 +33,7 @@ export function CTABanner() {
           <div className="mt-12 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
               href="/booking"
-              className="group relative rounded-full bg-gold-500 px-9 py-4 text-base font-semibold text-white transition-all hover:bg-gold-600 hover:shadow-[0_8px_30px_rgba(201,168,76,0.35)]"
+              className="rounded-full bg-gold-500 px-9 py-4 text-base font-semibold text-white transition-all hover:bg-gold-600 hover:shadow-[0_8px_30px_rgba(201,168,76,0.35)]"
             >
               Book Your Experience
             </Link>

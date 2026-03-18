@@ -5,38 +5,18 @@ import { TESTIMONIALS } from "@/lib/constants";
 import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
-import { motion, AnimatePresence } from "framer-motion";
 
 export function TestimonialCarousel() {
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [direction, setDirection] = useState(1);
 
   useEffect(() => {
     if (isPaused) return;
     const interval = setInterval(() => {
-      setDirection(1);
       setCurrent((prev) => (prev + 1) % TESTIMONIALS.length);
     }, 5000);
     return () => clearInterval(interval);
   }, [isPaused]);
-
-  const goTo = (index: number) => {
-    setDirection(index > current ? 1 : -1);
-    setCurrent(index);
-  };
-
-  const goNext = () => {
-    setDirection(1);
-    setCurrent((prev) => (prev + 1) % TESTIMONIALS.length);
-  };
-
-  const goPrev = () => {
-    setDirection(-1);
-    setCurrent(
-      (prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length
-    );
-  };
 
   return (
     <section className="relative py-28 bg-navy-900 overflow-hidden">
@@ -52,7 +32,7 @@ export function TestimonialCarousel() {
       </div>
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <AnimatedReveal variant="blurIn">
+        <AnimatedReveal>
           <SectionHeading
             label="Guest Stories"
             title="What Our Guests Say"
@@ -69,44 +49,48 @@ export function TestimonialCarousel() {
           <Quote className="absolute -top-4 left-1/2 -translate-x-1/2 h-10 w-10 text-gold-400/20" />
 
           <div className="relative overflow-hidden min-h-[250px]">
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={current}
-                initial={{ opacity: 0, x: direction * 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -direction * 50 }}
-                transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
-                className="text-center"
+            {TESTIMONIALS.map((testimonial, i) => (
+              <div
+                key={i}
+                className={`text-center transition-all duration-500 ease-out ${
+                  i === current
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 absolute inset-0 translate-x-8"
+                }`}
+                style={{ display: i === current ? "block" : "none" }}
               >
                 <div className="flex justify-center gap-1">
-                  {Array.from({ length: TESTIMONIALS[current].rating }).map(
-                    (_, j) => (
-                      <Star
-                        key={j}
-                        className="h-4 w-4 fill-gold-400 text-gold-400"
-                      />
-                    )
-                  )}
+                  {Array.from({ length: testimonial.rating }).map((_, j) => (
+                    <Star
+                      key={j}
+                      className="h-4 w-4 fill-gold-400 text-gold-400"
+                    />
+                  ))}
                 </div>
                 <blockquote className="mt-8 font-serif text-xl leading-relaxed text-white/90 sm:text-2xl">
-                  &ldquo;{TESTIMONIALS[current].text}&rdquo;
+                  &ldquo;{testimonial.text}&rdquo;
                 </blockquote>
                 <div className="mt-8">
                   <p className="font-semibold text-white">
-                    {TESTIMONIALS[current].name}
+                    {testimonial.name}
                   </p>
                   <p className="text-sm text-white/40 mt-1">
-                    {TESTIMONIALS[current].location}
+                    {testimonial.location}
                   </p>
                 </div>
-              </motion.div>
-            </AnimatePresence>
+              </div>
+            ))}
           </div>
 
           {/* Navigation */}
           <div className="mt-12 flex items-center justify-center gap-6">
             <button
-              onClick={goPrev}
+              onClick={() =>
+                setCurrent(
+                  (prev) =>
+                    (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length
+                )
+              }
               className="rounded-full border border-white/10 p-2.5 text-white/40 transition-all hover:border-gold-400/40 hover:text-gold-400 hover:bg-white/5"
               aria-label="Previous testimonial"
             >
@@ -116,7 +100,7 @@ export function TestimonialCarousel() {
               {TESTIMONIALS.map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => goTo(i)}
+                  onClick={() => setCurrent(i)}
                   className={`h-1.5 rounded-full transition-all duration-500 ${
                     i === current
                       ? "w-10 bg-gold-400"
@@ -127,7 +111,9 @@ export function TestimonialCarousel() {
               ))}
             </div>
             <button
-              onClick={goNext}
+              onClick={() =>
+                setCurrent((prev) => (prev + 1) % TESTIMONIALS.length)
+              }
               className="rounded-full border border-white/10 p-2.5 text-white/40 transition-all hover:border-gold-400/40 hover:text-gold-400 hover:bg-white/5"
               aria-label="Next testimonial"
             >

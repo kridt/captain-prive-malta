@@ -313,7 +313,7 @@ export function DetailsPageContent() {
             {/* Summary Sidebar */}
             <div className="lg:col-span-1">
               <div className="sticky top-24">
-                <AnimatedReveal variant="fadeRight">
+                <AnimatedReveal>
                   <div className="rounded-2xl bg-white p-6 shadow-lg border border-sand-200/50">
                     <h3 className="font-serif text-lg font-bold text-navy-500">
                       Booking Summary

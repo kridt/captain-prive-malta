@@ -1,8 +1,5 @@
-"use client";
-
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { Anchor, Heart, Compass } from "lucide-react";
-import { motion } from "framer-motion";
 
 const features = [
   {
@@ -29,7 +26,7 @@ export function IntroSection() {
   return (
     <section className="relative py-28 bg-sand-50">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <AnimatedReveal variant="blurIn">
+        <AnimatedReveal>
           <div className="mx-auto max-w-3xl text-center">
             <span className="inline-block text-xs font-semibold uppercase tracking-[0.25em] text-gold-500">
               Your Private Escape
@@ -50,15 +47,9 @@ export function IntroSection() {
 
         <div className="mt-20 grid gap-8 md:grid-cols-3">
           {features.map((item, i) => (
-            <AnimatedReveal key={item.title} delay={i * 150} variant="scaleUp">
-              <motion.div
-                whileHover={{ y: -8 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="group relative rounded-2xl bg-white p-8 text-center shadow-sm border border-sand-200/50"
-              >
-                {/* Subtle gold accent on hover */}
+            <AnimatedReveal key={item.title} delay={i * 100}>
+              <div className="card-premium group relative rounded-2xl bg-white p-8 text-center shadow-sm border border-sand-200/50">
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-400/0 to-transparent transition-all duration-500 group-hover:via-gold-400/60" />
-
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-gold-50 to-gold-100 transition-all duration-500 group-hover:shadow-lg group-hover:shadow-gold-200/50">
                   <item.icon className="h-7 w-7 text-gold-500 transition-transform duration-500 group-hover:scale-110" />
                 </div>
@@ -68,7 +59,7 @@ export function IntroSection() {
                 <p className="mt-3 text-sm leading-relaxed text-navy-300">
                   {item.description}
                 </p>
-              </motion.div>
+              </div>
             </AnimatedReveal>
           ))}
         </div>
