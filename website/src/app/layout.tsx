@@ -37,6 +37,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans antialiased">
+        <div className="bg-navy-500 text-white text-center text-sm py-2 px-4 font-medium">
+          Demo Site — This is a preview. Booking is not yet available.
+        </div>
         <Header />
         <main className="min-h-screen">{children}</main>
         <Footer />

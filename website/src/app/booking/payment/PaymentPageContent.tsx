@@ -11,7 +11,6 @@ import {
   Check,
   Lock,
   CreditCard,
-  Shield,
 } from "lucide-react";
 
 export function PaymentPageContent() {
@@ -118,35 +117,27 @@ export function PaymentPageContent() {
                   </h2>
                 </div>
 
-                {/* Stripe Elements placeholder */}
                 <div className="space-y-4">
-                  <div className="rounded-xl border-2 border-dashed border-sand-300 bg-sand-50 p-8 text-center">
-                    <Lock className="h-8 w-8 mx-auto text-navy-300" />
-                    <p className="mt-3 text-sm font-medium text-navy-400">
-                      Stripe Payment Element
+                  <div className="rounded-xl border-2 border-dashed border-gold-300 bg-gold-50 p-8 text-center">
+                    <Lock className="h-8 w-8 mx-auto text-gold-500" />
+                    <p className="mt-3 text-base font-semibold text-navy-500">
+                      Demo Mode
                     </p>
-                    <p className="mt-1 text-xs text-navy-300">
-                      Card, Apple Pay, Google Pay — will be integrated in Phase 3
+                    <p className="mt-1 text-sm text-navy-400">
+                      Online booking is coming soon. To book your experience, please contact us directly via WhatsApp or email.
                     </p>
-                  </div>
-
-                  <div className="flex items-center gap-2 text-xs text-navy-300">
-                    <Shield className="h-4 w-4 text-green-500" />
-                    <span>
-                      Your payment is secured with 256-bit SSL encryption via
-                      Stripe
-                    </span>
                   </div>
                 </div>
 
                 <div className="mt-8 space-y-3">
-                  <Link
-                    href={`/booking/confirmation?package=${packageSlug}&date=${date}&time=${time}`}
-                    className="flex items-center justify-center gap-2 rounded-full bg-gold-500 py-3.5 text-base font-semibold text-white transition-all hover:bg-gold-600 hover:shadow-lg w-full"
+                  <a
+                    href="https://wa.me/35679000000?text=Hi%20Captain%20Patrick%2C%20I%27d%20like%20to%20book%20an%20experience!"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 rounded-full bg-green-600 py-3.5 text-base font-semibold text-white transition-all hover:bg-green-700 hover:shadow-lg w-full"
                   >
-                    <Lock className="h-4 w-4" />
-                    Pay {formatPrice(total || pkg?.price || 0)}
-                  </Link>
+                    Contact via WhatsApp
+                  </a>
                   <Link
                     href={`/booking/details?package=${packageSlug}&date=${date}&time=${time}`}
                     className="flex items-center justify-center gap-2 text-sm text-navy-400 hover:text-navy-500 transition-colors"
