@@ -29,9 +29,9 @@ export function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? "bg-white/95 backdrop-blur-md shadow-sm"
+            ? "bg-white/90 backdrop-blur-xl shadow-[0_1px_0_rgba(201,168,76,0.1)]"
             : "bg-transparent"
         }`}
       >
@@ -39,7 +39,7 @@ export function Header() {
           <div className="flex h-20 items-center justify-between">
             <Link
               href="/"
-              className={`font-serif text-xl font-bold tracking-wide transition-colors ${
+              className={`font-serif text-xl font-bold tracking-wide transition-colors duration-300 ${
                 isScrolled ? "text-navy-500" : "text-white"
               }`}
             >
@@ -51,7 +51,7 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-sm font-medium tracking-wide transition-colors hover:text-gold-500 ${
+                  className={`relative text-sm font-medium tracking-wide transition-colors duration-300 hover:text-gold-500 after:absolute after:bottom-[-4px] after:left-0 after:h-px after:w-0 after:bg-gold-400 after:transition-all after:duration-300 hover:after:w-full ${
                     isScrolled ? "text-navy-500" : "text-white/90"
                   }`}
                 >
@@ -63,13 +63,13 @@ export function Header() {
             <div className="flex items-center gap-4">
               <Link
                 href="/booking"
-                className="hidden rounded-full bg-gold-500 px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-gold-600 hover:shadow-lg md:inline-block"
+                className="hidden rounded-full bg-gold-500 px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-gold-600 hover:shadow-[0_4px_20px_rgba(201,168,76,0.3)] md:inline-block"
               >
                 Book Now
               </Link>
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
-                className={`md:hidden ${
+                className={`md:hidden transition-colors duration-300 ${
                   isScrolled ? "text-navy-500" : "text-white"
                 }`}
                 aria-label="Open menu"
@@ -90,11 +90,11 @@ export function Header() {
         }`}
       >
         <div
-          className="absolute inset-0 bg-navy-900/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-navy-900/70 backdrop-blur-sm"
           onClick={() => setIsMobileMenuOpen(false)}
         />
         <div
-          className={`absolute right-0 top-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl transition-transform duration-300 ${
+          className={`absolute right-0 top-0 h-full w-80 max-w-[85vw] bg-white shadow-2xl transition-transform duration-500 ease-[cubic-bezier(0.25,0.4,0.25,1)] ${
             isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
@@ -105,8 +105,9 @@ export function Header() {
             <button
               onClick={() => setIsMobileMenuOpen(false)}
               aria-label="Close menu"
+              className="rounded-full p-1 hover:bg-sand-100 transition-colors"
             >
-              <X className="h-6 w-6 text-navy-400" />
+              <X className="h-5 w-5 text-navy-400" />
             </button>
           </div>
           <nav className="flex flex-col px-6">
@@ -115,7 +116,7 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="border-b border-sand-200 py-4 text-lg font-medium text-navy-500 transition-colors hover:text-gold-500"
+                className="border-b border-sand-100 py-4 text-lg font-medium text-navy-500 transition-colors hover:text-gold-500"
               >
                 {link.label}
               </Link>
@@ -125,7 +126,7 @@ export function Header() {
             <Link
               href="/booking"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="block w-full rounded-full bg-gold-500 py-3.5 text-center text-base font-semibold text-white transition-colors hover:bg-gold-600"
+              className="block w-full rounded-full bg-gold-500 py-3.5 text-center text-base font-semibold text-white transition-all hover:bg-gold-600 hover:shadow-lg"
             >
               Book Your Experience
             </Link>

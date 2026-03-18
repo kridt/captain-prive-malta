@@ -2,26 +2,57 @@
 
 import { useState, useEffect } from "react";
 import { TESTIMONIALS } from "@/lib/constants";
-import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
+import { motion, AnimatePresence } from "framer-motion";
 
 export function TestimonialCarousel() {
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [direction, setDirection] = useState(1);
 
   useEffect(() => {
     if (isPaused) return;
     const interval = setInterval(() => {
+      setDirection(1);
       setCurrent((prev) => (prev + 1) % TESTIMONIALS.length);
     }, 5000);
     return () => clearInterval(interval);
   }, [isPaused]);
 
+  const goTo = (index: number) => {
+    setDirection(index > current ? 1 : -1);
+    setCurrent(index);
+  };
+
+  const goNext = () => {
+    setDirection(1);
+    setCurrent((prev) => (prev + 1) % TESTIMONIALS.length);
+  };
+
+  const goPrev = () => {
+    setDirection(-1);
+    setCurrent(
+      (prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length
+    );
+  };
+
   return (
-    <section className="py-24 bg-navy-500">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <AnimatedReveal>
+    <section className="relative py-28 bg-navy-900 overflow-hidden">
+      {/* Ambient background */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(58,143,183,0.15)_0%,_transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(201,168,76,0.08)_0%,_transparent_50%)]" />
+
+      {/* Top wave */}
+      <div className="absolute top-0 left-0 right-0 z-10">
+        <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto block" preserveAspectRatio="none">
+          <path d="M0 0H1440V40C1200 80 960 60 720 70C480 80 240 40 0 60V0Z" fill="var(--color-sand-50)" />
+        </svg>
+      </div>
+
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <AnimatedReveal variant="blurIn">
           <SectionHeading
             label="Guest Stories"
             title="What Our Guests Say"
@@ -34,52 +65,49 @@ export function TestimonialCarousel() {
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          <div className="overflow-hidden">
-            {TESTIMONIALS.map((testimonial, i) => (
-              <div
-                key={i}
-                className={`transition-all duration-500 ${
-                  i === current
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-4 absolute inset-0"
-                }`}
-                style={{ display: i === current ? "block" : "none" }}
+          {/* Decorative quote icon */}
+          <Quote className="absolute -top-4 left-1/2 -translate-x-1/2 h-10 w-10 text-gold-400/20" />
+
+          <div className="relative overflow-hidden min-h-[250px]">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={current}
+                initial={{ opacity: 0, x: direction * 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -direction * 50 }}
+                transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
+                className="text-center"
               >
-                <div className="text-center">
-                  <div className="flex justify-center gap-1">
-                    {Array.from({ length: testimonial.rating }).map((_, j) => (
+                <div className="flex justify-center gap-1">
+                  {Array.from({ length: TESTIMONIALS[current].rating }).map(
+                    (_, j) => (
                       <Star
                         key={j}
-                        className="h-5 w-5 fill-gold-400 text-gold-400"
+                        className="h-4 w-4 fill-gold-400 text-gold-400"
                       />
-                    ))}
-                  </div>
-                  <blockquote className="mt-6 font-serif text-xl leading-relaxed text-white sm:text-2xl">
-                    &ldquo;{testimonial.text}&rdquo;
-                  </blockquote>
-                  <div className="mt-6">
-                    <p className="font-semibold text-white">
-                      {testimonial.name}
-                    </p>
-                    <p className="text-sm text-white/50">
-                      {testimonial.location}
-                    </p>
-                  </div>
+                    )
+                  )}
                 </div>
-              </div>
-            ))}
+                <blockquote className="mt-8 font-serif text-xl leading-relaxed text-white/90 sm:text-2xl">
+                  &ldquo;{TESTIMONIALS[current].text}&rdquo;
+                </blockquote>
+                <div className="mt-8">
+                  <p className="font-semibold text-white">
+                    {TESTIMONIALS[current].name}
+                  </p>
+                  <p className="text-sm text-white/40 mt-1">
+                    {TESTIMONIALS[current].location}
+                  </p>
+                </div>
+              </motion.div>
+            </AnimatePresence>
           </div>
 
           {/* Navigation */}
-          <div className="mt-10 flex items-center justify-center gap-4">
+          <div className="mt-12 flex items-center justify-center gap-6">
             <button
-              onClick={() =>
-                setCurrent(
-                  (prev) =>
-                    (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length
-                )
-              }
-              className="rounded-full border border-white/20 p-2 text-white/60 transition-colors hover:border-white/40 hover:text-white"
+              onClick={goPrev}
+              className="rounded-full border border-white/10 p-2.5 text-white/40 transition-all hover:border-gold-400/40 hover:text-gold-400 hover:bg-white/5"
               aria-label="Previous testimonial"
             >
               <ChevronLeft className="h-5 w-5" />
@@ -88,21 +116,19 @@ export function TestimonialCarousel() {
               {TESTIMONIALS.map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => setCurrent(i)}
-                  className={`h-2 rounded-full transition-all ${
+                  onClick={() => goTo(i)}
+                  className={`h-1.5 rounded-full transition-all duration-500 ${
                     i === current
-                      ? "w-8 bg-gold-400"
-                      : "w-2 bg-white/30 hover:bg-white/50"
+                      ? "w-10 bg-gold-400"
+                      : "w-1.5 bg-white/20 hover:bg-white/40"
                   }`}
                   aria-label={`Go to testimonial ${i + 1}`}
                 />
               ))}
             </div>
             <button
-              onClick={() =>
-                setCurrent((prev) => (prev + 1) % TESTIMONIALS.length)
-              }
-              className="rounded-full border border-white/20 p-2 text-white/60 transition-colors hover:border-white/40 hover:text-white"
+              onClick={goNext}
+              className="rounded-full border border-white/10 p-2.5 text-white/40 transition-all hover:border-gold-400/40 hover:text-gold-400 hover:bg-white/5"
               aria-label="Next testimonial"
             >
               <ChevronRight className="h-5 w-5" />

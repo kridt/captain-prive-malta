@@ -37,10 +37,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans antialiased">
-        <div className="bg-navy-500 text-white text-center text-sm py-2 px-4 font-medium">
-          Demo Site — This is a preview. Booking is not yet available.
-        </div>
         <Header />
+        <div className="fixed bottom-4 left-4 z-[55] rounded-full bg-navy-900/80 backdrop-blur-sm px-4 py-2 text-xs font-medium text-white/70 border border-white/10">
+          Demo Preview
+        </div>
         <main className="min-h-screen">{children}</main>
         <Footer />
         <WhatsAppButton />
