@@ -2,8 +2,17 @@
 
 import { useState } from "react";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
+import { PageHero } from "@/components/shared/PageHero";
 import { PACKAGES, SITE_CONFIG } from "@/lib/constants";
-import { Mail, Phone, MapPin, Instagram, Clock, Send, CheckCircle } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Instagram,
+  Clock,
+  Send,
+  CheckCircle,
+} from "lucide-react";
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -17,40 +26,26 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In Phase 3, this will POST to /api/contact
     setSubmitted(true);
   };
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative flex items-center justify-center h-[50vh] min-h-[400px] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-navy-800 via-navy-500 to-sea-500" />
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-sand-50 to-transparent" />
-        <div className="relative z-10 text-center px-4">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gold-300">
-            Let&apos;s Connect
-          </p>
-          <h1 className="mt-4 font-serif text-4xl font-bold text-white sm:text-5xl md:text-6xl">
-            Get in Touch
-          </h1>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-white/70">
-            Questions, special requests, or just want to say hello? We&apos;d
-            love to hear from you.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        label="Let's Connect"
+        title="Get in Touch"
+        description="Questions, special requests, or just want to say hello? We'd love to hear from you."
+      />
 
       {/* Content */}
-      <section className="py-24 bg-sand-50">
+      <section className="py-28 bg-sand-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-16 lg:grid-cols-5">
             {/* Form */}
             <div className="lg:col-span-3">
-              <AnimatedReveal>
+              <AnimatedReveal variant="fadeLeft">
                 {submitted ? (
-                  <div className="rounded-2xl bg-white p-12 text-center shadow-sm">
+                  <div className="rounded-2xl bg-white p-12 text-center shadow-sm border border-sand-200/50">
                     <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
                       <CheckCircle className="h-8 w-8 text-green-600" />
                     </div>
@@ -65,7 +60,7 @@ export default function ContactPage() {
                 ) : (
                   <form
                     onSubmit={handleSubmit}
-                    className="rounded-2xl bg-white p-8 shadow-sm sm:p-10"
+                    className="rounded-2xl bg-white p-8 shadow-sm border border-sand-200/50 sm:p-10"
                   >
                     <h2 className="font-serif text-2xl font-bold text-navy-500">
                       Send Us a Message
@@ -87,7 +82,7 @@ export default function ContactPage() {
                             onChange={(e) =>
                               setFormData({ ...formData, name: e.target.value })
                             }
-                            className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 placeholder-navy-200 transition-colors focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20"
+                            className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 placeholder-navy-200 transition-all duration-300 focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20 focus:shadow-sm"
                             placeholder="John & Jane"
                           />
                         </div>
@@ -105,7 +100,7 @@ export default function ContactPage() {
                                 email: e.target.value,
                               })
                             }
-                            className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 placeholder-navy-200 transition-colors focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20"
+                            className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 placeholder-navy-200 transition-all duration-300 focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20 focus:shadow-sm"
                             placeholder="hello@example.com"
                           />
                         </div>
@@ -125,7 +120,7 @@ export default function ContactPage() {
                                 phone: e.target.value,
                               })
                             }
-                            className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 placeholder-navy-200 transition-colors focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20"
+                            className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 placeholder-navy-200 transition-all duration-300 focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20 focus:shadow-sm"
                             placeholder="+356 1234 5678"
                           />
                         </div>
@@ -141,7 +136,7 @@ export default function ContactPage() {
                                 package: e.target.value,
                               })
                             }
-                            className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 transition-colors focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20"
+                            className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 transition-all duration-300 focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20 focus:shadow-sm"
                           >
                             <option value="">Select an experience...</option>
                             {PACKAGES.map((pkg) => (
@@ -168,14 +163,14 @@ export default function ContactPage() {
                               message: e.target.value,
                             })
                           }
-                          className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 placeholder-navy-200 transition-colors focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20 resize-none"
+                          className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 placeholder-navy-200 transition-all duration-300 focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20 focus:shadow-sm resize-none"
                           placeholder="Tell us about your plans — dates, occasion, number of guests, or any questions you have..."
                         />
                       </div>
 
                       <button
                         type="submit"
-                        className="inline-flex items-center gap-2 rounded-full bg-gold-500 px-8 py-3.5 text-base font-semibold text-white transition-all hover:bg-gold-600 hover:shadow-lg"
+                        className="inline-flex items-center gap-2 rounded-full bg-gold-500 px-8 py-3.5 text-base font-semibold text-white transition-all duration-300 hover:bg-gold-600 hover:shadow-[0_8px_30px_rgba(201,168,76,0.35)]"
                       >
                         Send Message
                         <Send className="h-4 w-4" />
@@ -188,7 +183,7 @@ export default function ContactPage() {
 
             {/* Contact Info */}
             <div className="lg:col-span-2">
-              <AnimatedReveal delay={200}>
+              <AnimatedReveal variant="fadeRight" delay={200}>
                 <div className="space-y-6">
                   <div>
                     <h2 className="font-serif text-2xl font-bold text-navy-500">
@@ -234,9 +229,9 @@ export default function ContactPage() {
                     ].map((item) => (
                       <div
                         key={item.label}
-                        className="flex items-start gap-4 rounded-xl bg-white p-4 shadow-sm"
+                        className="group flex items-start gap-4 rounded-xl bg-white p-4 shadow-sm border border-sand-200/50 transition-all duration-300 hover:shadow-md hover:border-gold-200/50"
                       >
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gold-50">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-gold-50 to-gold-100 transition-all duration-300 group-hover:shadow-md group-hover:shadow-gold-200/30">
                           <item.icon className="h-5 w-5 text-gold-500" />
                         </div>
                         <div>
@@ -271,7 +266,7 @@ export default function ContactPage() {
                   </div>
 
                   {/* Map Placeholder */}
-                  <div className="overflow-hidden rounded-xl bg-gradient-to-br from-sea-200 to-sea-400 aspect-[4/3] flex items-center justify-center">
+                  <div className="overflow-hidden rounded-xl bg-gradient-to-br from-sea-200 to-sea-400 aspect-[4/3] flex items-center justify-center shadow-sm">
                     <div className="text-center text-white/70">
                       <MapPin className="h-8 w-8 mx-auto" />
                       <p className="mt-2 text-sm font-medium">

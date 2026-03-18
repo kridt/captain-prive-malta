@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
+import { PageHero } from "@/components/shared/PageHero";
+import { motion, AnimatePresence } from "framer-motion";
 
 const GALLERY_ITEMS = [
   { id: 1, category: "sunsets", label: "Golden sunset over Comino" },
@@ -27,7 +29,6 @@ const CATEGORIES = [
   { value: "blue-lagoon", label: "Blue Lagoon" },
 ];
 
-// Generate gradient colors for placeholders
 const GRADIENTS = [
   "from-amber-400 to-orange-500",
   "from-navy-400 to-sea-500",
@@ -54,122 +55,139 @@ export default function GalleryPage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative flex items-center justify-center h-[50vh] min-h-[400px] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-navy-800 via-navy-500 to-sea-500" />
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-sand-50 to-transparent" />
-        <div className="relative z-10 text-center px-4">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gold-300">
-            Captured Moments
-          </p>
-          <h1 className="mt-4 font-serif text-4xl font-bold text-white sm:text-5xl md:text-6xl">
-            Gallery
-          </h1>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-white/70">
-            A glimpse into the experiences that await you on the Mediterranean.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        label="Captured Moments"
+        title="Gallery"
+        description="A glimpse into the experiences that await you on the Mediterranean."
+      />
 
       {/* Gallery */}
-      <section className="py-16 bg-sand-50">
+      <section className="py-20 bg-sand-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Filters */}
-          <div className="flex flex-wrap justify-center gap-2">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat.value}
-                onClick={() => setFilter(cat.value)}
-                className={`rounded-full px-5 py-2 text-sm font-medium transition-all ${
-                  filter === cat.value
-                    ? "bg-navy-500 text-white shadow-sm"
-                    : "bg-white text-navy-400 hover:bg-navy-50"
-                }`}
-              >
-                {cat.label}
-              </button>
-            ))}
-          </div>
+          <AnimatedReveal variant="fadeUp">
+            <div className="flex flex-wrap justify-center gap-2">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat.value}
+                  onClick={() => setFilter(cat.value)}
+                  className={`rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-300 ${
+                    filter === cat.value
+                      ? "bg-navy-900 text-white shadow-lg"
+                      : "bg-white text-navy-400 border border-sand-200/50 hover:border-gold-200 hover:text-gold-600"
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+          </AnimatedReveal>
 
           {/* Grid */}
-          <div className="mt-12 columns-1 gap-4 sm:columns-2 lg:columns-3">
-            {filtered.map((item, i) => {
-              const isLandscape = i % 3 !== 1;
-              return (
-                <AnimatedReveal key={item.id} delay={i * 50}>
-                  <button
-                    onClick={() =>
-                      setLightboxIndex(
-                        GALLERY_ITEMS.findIndex((g) => g.id === item.id)
-                      )
-                    }
-                    className={`group relative mb-4 w-full overflow-hidden rounded-xl ${
-                      isLandscape ? "aspect-[4/3]" : "aspect-[3/4]"
-                    } bg-gradient-to-br ${GRADIENTS[item.id - 1]} transition-transform hover:scale-[1.02] cursor-pointer`}
+          <motion.div
+            layout
+            className="mt-12 columns-1 gap-4 sm:columns-2 lg:columns-3"
+          >
+            <AnimatePresence mode="popLayout">
+              {filtered.map((item, i) => {
+                const isLandscape = i % 3 !== 1;
+                return (
+                  <motion.div
+                    key={item.id}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.4, delay: i * 0.03 }}
                   >
-                    <div className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/20" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                      <p className="text-sm font-medium text-white">
-                        {item.label}
-                      </p>
-                    </div>
-                  </button>
-                </AnimatedReveal>
-              );
-            })}
-          </div>
+                    <button
+                      onClick={() =>
+                        setLightboxIndex(
+                          GALLERY_ITEMS.findIndex((g) => g.id === item.id)
+                        )
+                      }
+                      className={`group relative mb-4 w-full overflow-hidden rounded-xl ${
+                        isLandscape ? "aspect-[4/3]" : "aspect-[3/4]"
+                      } bg-gradient-to-br ${GRADIENTS[item.id - 1]} cursor-pointer`}
+                    >
+                      <div className="absolute inset-0 bg-black/0 transition-all duration-500 group-hover:bg-black/20" />
+                      <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-105" />
+                      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p className="text-sm font-medium text-white">
+                          {item.label}
+                        </p>
+                      </div>
+                    </button>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </motion.div>
         </div>
       </section>
 
       {/* Lightbox */}
-      {lightboxIndex !== null && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 backdrop-blur-sm">
-          <button
-            onClick={() => setLightboxIndex(null)}
-            className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors"
-            aria-label="Close lightbox"
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 backdrop-blur-md"
           >
-            <X className="h-8 w-8" />
-          </button>
-
-          <button
-            onClick={() =>
-              setLightboxIndex(
-                (lightboxIndex - 1 + GALLERY_ITEMS.length) %
-                  GALLERY_ITEMS.length
-              )
-            }
-            className="absolute left-4 text-white/70 hover:text-white transition-colors"
-            aria-label="Previous image"
-          >
-            <ChevronLeft className="h-10 w-10" />
-          </button>
-
-          <div className="mx-16 max-w-4xl w-full">
-            <div
-              className={`aspect-[4/3] rounded-xl bg-gradient-to-br ${GRADIENTS[GALLERY_ITEMS[lightboxIndex].id - 1]} flex items-center justify-center`}
+            <button
+              onClick={() => setLightboxIndex(null)}
+              className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors rounded-full p-2 hover:bg-white/10"
+              aria-label="Close lightbox"
             >
-              <p className="text-xl font-medium text-white/80">
-                {GALLERY_ITEMS[lightboxIndex].label}
-              </p>
-            </div>
-            <p className="mt-4 text-center text-sm text-white/60">
-              {lightboxIndex + 1} / {GALLERY_ITEMS.length}
-            </p>
-          </div>
+              <X className="h-7 w-7" />
+            </button>
 
-          <button
-            onClick={() =>
-              setLightboxIndex((lightboxIndex + 1) % GALLERY_ITEMS.length)
-            }
-            className="absolute right-4 text-white/70 hover:text-white transition-colors"
-            aria-label="Next image"
-          >
-            <ChevronRight className="h-10 w-10" />
-          </button>
-        </div>
-      )}
+            <button
+              onClick={() =>
+                setLightboxIndex(
+                  (lightboxIndex - 1 + GALLERY_ITEMS.length) %
+                    GALLERY_ITEMS.length
+                )
+              }
+              className="absolute left-4 text-white/50 hover:text-white transition-colors rounded-full p-2 hover:bg-white/10"
+              aria-label="Previous image"
+            >
+              <ChevronLeft className="h-10 w-10" />
+            </button>
+
+            <motion.div
+              key={lightboxIndex}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className="mx-16 max-w-4xl w-full"
+            >
+              <div
+                className={`aspect-[4/3] rounded-2xl bg-gradient-to-br ${GRADIENTS[GALLERY_ITEMS[lightboxIndex].id - 1]} flex items-center justify-center shadow-2xl`}
+              >
+                <p className="text-xl font-medium text-white/80">
+                  {GALLERY_ITEMS[lightboxIndex].label}
+                </p>
+              </div>
+              <p className="mt-4 text-center text-sm text-white/40">
+                {lightboxIndex + 1} / {GALLERY_ITEMS.length}
+              </p>
+            </motion.div>
+
+            <button
+              onClick={() =>
+                setLightboxIndex((lightboxIndex + 1) % GALLERY_ITEMS.length)
+              }
+              className="absolute right-4 text-white/50 hover:text-white transition-colors rounded-full p-2 hover:bg-white/10"
+              aria-label="Next image"
+            >
+              <ChevronRight className="h-10 w-10" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

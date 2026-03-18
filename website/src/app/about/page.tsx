@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
 import { SectionHeading } from "@/components/shared/SectionHeading";
+import { PageHero } from "@/components/shared/PageHero";
 import { Heart, Compass, Anchor, Shield, Award, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -13,39 +14,30 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative flex items-center justify-center h-[50vh] min-h-[400px] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-navy-800 via-navy-500 to-sea-500" />
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-sand-50 to-transparent" />
-        <div className="relative z-10 text-center px-4">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-gold-300">
-            Our Story
-          </p>
-          <h1 className="mt-4 font-serif text-4xl font-bold text-white sm:text-5xl md:text-6xl">
-            About Captain Prive
-          </h1>
-        </div>
-      </section>
+      <PageHero label="Our Story" title="About Captain Prive" />
 
       {/* Patrick's Story */}
-      <section className="py-24 bg-sand-50">
+      <section className="py-28 bg-sand-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-center gap-16 lg:grid-cols-2">
-            <AnimatedReveal>
-              <div className="aspect-[3/4] max-w-lg mx-auto overflow-hidden rounded-2xl bg-gradient-to-br from-navy-300 to-sea-400 shadow-lg">
-                <div className="flex h-full items-center justify-center text-white/50 text-sm">
-                  Captain Patrick Portrait
+            <AnimatedReveal variant="fadeLeft">
+              <div className="relative">
+                <div className="aspect-[3/4] max-w-lg mx-auto overflow-hidden rounded-2xl bg-gradient-to-br from-navy-300 to-sea-400 shadow-2xl">
+                  <div className="flex h-full items-center justify-center text-white/50 text-sm">
+                    Captain Patrick Portrait
+                  </div>
                 </div>
+                <div className="absolute -bottom-4 -right-4 w-full h-full rounded-2xl border-2 border-gold-300/30 -z-10" />
               </div>
             </AnimatedReveal>
 
-            <AnimatedReveal delay={200}>
+            <AnimatedReveal variant="fadeRight" delay={200}>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-widest text-gold-500">
+                <span className="inline-block text-xs font-semibold uppercase tracking-[0.25em] text-gold-500">
                   Meet Your Captain
-                </p>
-                <h2 className="mt-3 font-serif text-3xl font-bold text-navy-500 sm:text-4xl">
+                </span>
+                <div className="mt-3 w-12 divider-gold" />
+                <h2 className="mt-5 font-serif text-3xl font-bold text-navy-500 sm:text-4xl">
                   Captain Patrick Wolter
                 </h2>
                 <div className="mt-6 space-y-4 text-base leading-relaxed text-navy-300">
@@ -72,9 +64,11 @@ export default function AboutPage() {
                     perfect photo, he brings a personal touch that transforms a
                     simple boat trip into something meaningful.
                   </p>
-                  <blockquote className="border-l-4 border-gold-400 pl-6 italic text-navy-400">
-                    &ldquo;Every guest should leave feeling special, happy, and
-                    connected — not just to the sea, but to Malta itself.&rdquo;
+                  <blockquote className="border-l-2 border-gold-400 pl-5">
+                    <p className="font-serif text-lg italic text-navy-400">
+                      &ldquo;Every guest should leave feeling special, happy, and
+                      connected — not just to the sea, but to Malta itself.&rdquo;
+                    </p>
                   </blockquote>
                 </div>
               </div>
@@ -84,9 +78,9 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="py-24 bg-white">
+      <section className="py-28 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <AnimatedReveal>
+          <AnimatedReveal variant="blurIn">
             <SectionHeading
               label="Our Values"
               title="What Guides Every Journey"
@@ -94,7 +88,7 @@ export default function AboutPage() {
             />
           </AnimatedReveal>
 
-          <div className="mt-16 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-20 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {[
               {
                 icon: Heart,
@@ -133,10 +127,11 @@ export default function AboutPage() {
                   "Each package is designed to evoke emotion: romance, celebration, serenity, or discovery.",
               },
             ].map((value, i) => (
-              <AnimatedReveal key={value.title} delay={i * 100}>
-                <div className="rounded-2xl border border-sand-200 p-8 transition-all hover:border-gold-200 hover:shadow-sm">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gold-50">
-                    <value.icon className="h-5 w-5 text-gold-500" />
+              <AnimatedReveal key={value.title} delay={i * 100} variant="scaleUp">
+                <div className="group rounded-2xl border border-sand-200/50 bg-white p-8 transition-all duration-500 hover:border-gold-200 hover:shadow-lg hover:shadow-gold-100/30">
+                  <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-400/0 to-transparent transition-all duration-500 group-hover:via-gold-400/60" />
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-gold-50 to-gold-100 transition-all duration-500 group-hover:shadow-lg group-hover:shadow-gold-200/50">
+                    <value.icon className="h-6 w-6 text-gold-500 transition-transform duration-500 group-hover:scale-110" />
                   </div>
                   <h3 className="mt-5 font-serif text-lg font-bold text-navy-500">
                     {value.title}
@@ -152,15 +147,16 @@ export default function AboutPage() {
       </section>
 
       {/* The Boat */}
-      <section className="py-24 bg-sand-50">
+      <section className="py-28 bg-sand-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-center gap-16 lg:grid-cols-2">
-            <AnimatedReveal>
+            <AnimatedReveal variant="fadeLeft">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-widest text-gold-500">
+                <span className="inline-block text-xs font-semibold uppercase tracking-[0.25em] text-gold-500">
                   Your Vessel
-                </p>
-                <h2 className="mt-3 font-serif text-3xl font-bold text-navy-500 sm:text-4xl">
+                </span>
+                <div className="mt-3 w-12 divider-gold" />
+                <h2 className="mt-5 font-serif text-3xl font-bold text-navy-500 sm:text-4xl">
                   The Boat
                 </h2>
                 <div className="mt-6 space-y-4 text-base leading-relaxed text-navy-300">
@@ -170,7 +166,7 @@ export default function AboutPage() {
                     perfect balance of space and coziness for an unforgettable
                     experience.
                   </p>
-                  <ul className="space-y-2">
+                  <ul className="space-y-3">
                     {[
                       "Comfortable seating and sunbathing areas",
                       "Premium sound system for curated playlists",
@@ -180,7 +176,7 @@ export default function AboutPage() {
                       "Refreshment station",
                     ].map((item) => (
                       <li key={item} className="flex items-start gap-3">
-                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-gold-400 shrink-0" />
+                        <div className="mt-2 h-1.5 w-1.5 rounded-full bg-gold-400 shrink-0" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -189,11 +185,14 @@ export default function AboutPage() {
               </div>
             </AnimatedReveal>
 
-            <AnimatedReveal delay={200}>
-              <div className="aspect-video overflow-hidden rounded-2xl bg-gradient-to-br from-sea-300 to-navy-400 shadow-lg">
-                <div className="flex h-full items-center justify-center text-white/50 text-sm">
-                  The Boat
+            <AnimatedReveal variant="fadeRight" delay={200}>
+              <div className="relative">
+                <div className="aspect-video overflow-hidden rounded-2xl bg-gradient-to-br from-sea-300 to-navy-400 shadow-2xl">
+                  <div className="flex h-full items-center justify-center text-white/50 text-sm">
+                    The Boat
+                  </div>
                 </div>
+                <div className="absolute -bottom-4 -left-4 w-full h-full rounded-2xl border-2 border-gold-300/30 -z-10" />
               </div>
             </AnimatedReveal>
           </div>
@@ -201,25 +200,36 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 bg-navy-500">
-        <div className="mx-auto max-w-4xl px-4 text-center">
-          <AnimatedReveal>
-            <h2 className="font-serif text-3xl font-bold text-white sm:text-4xl">
+      <section className="relative py-28 overflow-hidden">
+        <div className="absolute inset-0 bg-navy-900" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_#1a2744_0%,_#0c1425_80%)]" />
+        {/* Top wave */}
+        <div className="absolute top-0 left-0 right-0">
+          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto block" preserveAspectRatio="none">
+            <path d="M0 0H1440V40C1200 70 960 20 720 40C480 60 240 30 0 50V0Z" fill="var(--color-sand-50)" />
+          </svg>
+        </div>
+        <div className="relative z-10 mx-auto max-w-4xl px-4 text-center">
+          <AnimatedReveal variant="scaleUp">
+            <span className="inline-block text-xs font-semibold uppercase tracking-[0.25em] text-gold-400/80">
+              Your Journey Awaits
+            </span>
+            <h2 className="mt-5 font-serif text-3xl font-bold text-white sm:text-4xl">
               Experience It Yourself
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-lg text-white/70">
+            <p className="mx-auto mt-4 max-w-xl text-lg text-white/50">
               Step aboard and discover why our guests call it unforgettable.
             </p>
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
               <Link
                 href="/booking"
-                className="rounded-full bg-gold-500 px-8 py-3.5 text-base font-semibold text-white transition-all hover:bg-gold-600 hover:shadow-lg"
+                className="rounded-full bg-gold-500 px-9 py-4 text-base font-semibold text-white transition-all hover:bg-gold-600 hover:shadow-[0_8px_30px_rgba(201,168,76,0.35)]"
               >
                 Book Your Experience
               </Link>
               <Link
                 href="/experiences"
-                className="inline-flex items-center gap-2 rounded-full border-2 border-white/30 px-8 py-3.5 text-base font-semibold text-white transition-all hover:border-white/60 hover:bg-white/10"
+                className="inline-flex items-center gap-2 rounded-full border border-white/20 px-9 py-4 text-base font-semibold text-white/80 transition-all hover:border-gold-400/50 hover:text-gold-300 hover:bg-white/5"
               >
                 Browse Experiences
                 <ArrowRight className="h-4 w-4" />

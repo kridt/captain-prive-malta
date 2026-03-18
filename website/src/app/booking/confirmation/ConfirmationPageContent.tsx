@@ -26,7 +26,7 @@ export function ConfirmationPageContent() {
   return (
     <>
       {/* Step Indicator */}
-      <section className="bg-white border-b border-sand-200 pt-20">
+      <section className="bg-white border-b border-sand-200/50 pt-20">
         <div className="mx-auto max-w-4xl px-4 py-4">
           <div className="flex items-center justify-center gap-2 text-sm">
             {["Experience & Date", "Your Details", "Payment", "Confirmation"].map(
@@ -49,9 +49,9 @@ export function ConfirmationPageContent() {
       {/* Content */}
       <section className="py-16 bg-sand-50">
         <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
-          <AnimatedReveal>
+          <AnimatedReveal variant="scaleUp">
             <div className="text-center">
-              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
+              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-100 animate-scale-in">
                 <CheckCircle className="h-10 w-10 text-green-600" />
               </div>
               <h1 className="mt-6 font-serif text-3xl font-bold text-navy-500 sm:text-4xl">
@@ -65,10 +65,10 @@ export function ConfirmationPageContent() {
           </AnimatedReveal>
 
           <AnimatedReveal delay={200}>
-            <div className="mt-10 rounded-2xl bg-white p-6 shadow-sm sm:p-8">
+            <div className="mt-10 rounded-2xl bg-white p-6 shadow-sm border border-sand-200/50 sm:p-8">
               {/* Reference */}
               <div className="text-center border-b border-sand-200 pb-6">
-                <p className="text-xs font-medium uppercase tracking-wider text-navy-300">
+                <p className="text-xs font-medium uppercase tracking-[0.2em] text-navy-300">
                   Booking Reference
                 </p>
                 <p className="mt-1 font-mono text-2xl font-bold text-navy-500 tracking-wider">
@@ -129,12 +129,12 @@ export function ConfirmationPageContent() {
                     href={`https://wa.me/${SITE_CONFIG.whatsappNumber}?text=Hi%20Captain%20Patrick!%20I've%20just%20booked%20${encodeURIComponent(pkg?.name || "")}%20(ref:%20${referenceCode}).`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 rounded-xl bg-[#25D366] py-3 text-sm font-semibold text-white transition-all hover:bg-[#20bd5a]"
+                    className="flex items-center justify-center gap-2 rounded-xl bg-[#25D366] py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#20bd5a] hover:shadow-lg"
                   >
                     <MessageCircle className="h-4 w-4" />
                     Message Captain Patrick
                   </a>
-                  <button className="flex items-center justify-center gap-2 rounded-xl border border-sand-200 py-3 text-sm font-semibold text-navy-500 transition-all hover:bg-sand-50">
+                  <button className="flex items-center justify-center gap-2 rounded-xl border border-sand-200 py-3 text-sm font-semibold text-navy-500 transition-all duration-300 hover:bg-sand-50 hover:border-gold-200">
                     <Download className="h-4 w-4" />
                     Add to Calendar
                   </button>

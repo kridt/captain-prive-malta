@@ -43,21 +43,24 @@ export function DetailsPageContent() {
   const isFormValid =
     form.firstName && form.lastName && form.email && form.phone && form.guests > 0;
 
+  const inputClasses =
+    "mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 placeholder-navy-200 transition-all duration-300 focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20 focus:shadow-sm";
+
   return (
     <>
       {/* Step Indicator */}
-      <section className="bg-white border-b border-sand-200 pt-20">
+      <section className="bg-white border-b border-sand-200/50 pt-20">
         <div className="mx-auto max-w-4xl px-4 py-4">
           <div className="flex items-center justify-center gap-2 text-sm">
             {["Experience & Date", "Your Details", "Payment", "Confirmation"].map(
               (step, i) => (
                 <div key={step} className="flex items-center gap-2">
                   <div
-                    className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${
+                    className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 ${
                       i < 1
                         ? "bg-gold-500 text-white"
                         : i === 1
-                          ? "bg-gold-500 text-white"
+                          ? "bg-gold-500 text-white shadow-md shadow-gold-500/30"
                           : "bg-sand-200 text-navy-300"
                     }`}
                   >
@@ -86,7 +89,7 @@ export function DetailsPageContent() {
             <div className="lg:col-span-2 space-y-8">
               {/* Guest Details */}
               <AnimatedReveal>
-                <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
+                <div className="rounded-2xl bg-white p-6 shadow-sm border border-sand-200/50 sm:p-8">
                   <h2 className="font-serif text-xl font-bold text-navy-500">
                     Guest Details
                   </h2>
@@ -107,7 +110,7 @@ export function DetailsPageContent() {
                           onChange={(e) =>
                             setForm({ ...form, firstName: e.target.value })
                           }
-                          className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 placeholder-navy-200 transition-colors focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20"
+                          className={inputClasses}
                           placeholder="Patrick"
                         />
                       </div>
@@ -122,7 +125,7 @@ export function DetailsPageContent() {
                           onChange={(e) =>
                             setForm({ ...form, lastName: e.target.value })
                           }
-                          className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 placeholder-navy-200 transition-colors focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20"
+                          className={inputClasses}
                           placeholder="Wolter"
                         />
                       </div>
@@ -140,7 +143,7 @@ export function DetailsPageContent() {
                           onChange={(e) =>
                             setForm({ ...form, email: e.target.value })
                           }
-                          className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 placeholder-navy-200 transition-colors focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20"
+                          className={inputClasses}
                           placeholder="hello@example.com"
                         />
                       </div>
@@ -155,7 +158,7 @@ export function DetailsPageContent() {
                           onChange={(e) =>
                             setForm({ ...form, phone: e.target.value })
                           }
-                          className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 placeholder-navy-200 transition-colors focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20"
+                          className={inputClasses}
                           placeholder="+44 7911 123456"
                         />
                       </div>
@@ -172,7 +175,7 @@ export function DetailsPageContent() {
                           onChange={(e) =>
                             setForm({ ...form, country: e.target.value })
                           }
-                          className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 placeholder-navy-200 transition-colors focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20"
+                          className={inputClasses}
                           placeholder="United Kingdom"
                         />
                       </div>
@@ -220,7 +223,7 @@ export function DetailsPageContent() {
                           onChange={(e) =>
                             setForm({ ...form, occasion: e.target.value })
                           }
-                          className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 transition-colors focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20"
+                          className={inputClasses}
                         >
                           <option value="">Select...</option>
                           <option value="anniversary">Anniversary</option>
@@ -247,7 +250,7 @@ export function DetailsPageContent() {
                             specialRequests: e.target.value,
                           })
                         }
-                        className="mt-1 w-full rounded-xl border border-sand-200 bg-sand-50 px-4 py-3 text-sm text-navy-500 placeholder-navy-200 transition-colors focus:border-gold-400 focus:outline-none focus:ring-2 focus:ring-gold-400/20 resize-none"
+                        className={`${inputClasses} resize-none`}
                         placeholder="Dietary requirements, accessibility needs, surprise plans..."
                       />
                     </div>
@@ -257,7 +260,7 @@ export function DetailsPageContent() {
 
               {/* Add-ons */}
               <AnimatedReveal delay={100}>
-                <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
+                <div className="rounded-2xl bg-white p-6 shadow-sm border border-sand-200/50 sm:p-8">
                   <h2 className="font-serif text-xl font-bold text-navy-500">
                     Enhance Your Experience
                   </h2>
@@ -270,15 +273,15 @@ export function DetailsPageContent() {
                       <button
                         key={addon.id}
                         onClick={() => toggleAddOn(addon.id)}
-                        className={`flex w-full items-center justify-between rounded-xl border-2 p-4 text-left transition-all ${
+                        className={`flex w-full items-center justify-between rounded-xl border-2 p-4 text-left transition-all duration-300 ${
                           selectedAddOns[addon.id]
-                            ? "border-gold-500 bg-gold-50/50"
+                            ? "border-gold-500 bg-gold-50/50 shadow-md shadow-gold-500/10"
                             : "border-sand-200 hover:border-navy-200"
                         }`}
                       >
                         <div className="flex items-center gap-3">
                           <div
-                            className={`flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-colors ${
+                            className={`flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-all duration-300 ${
                               selectedAddOns[addon.id]
                                 ? "border-gold-500 bg-gold-500"
                                 : "border-sand-300"
@@ -310,8 +313,8 @@ export function DetailsPageContent() {
             {/* Summary Sidebar */}
             <div className="lg:col-span-1">
               <div className="sticky top-24">
-                <AnimatedReveal>
-                  <div className="rounded-2xl bg-white p-6 shadow-lg">
+                <AnimatedReveal variant="fadeRight">
+                  <div className="rounded-2xl bg-white p-6 shadow-lg border border-sand-200/50">
                     <h3 className="font-serif text-lg font-bold text-navy-500">
                       Booking Summary
                     </h3>
@@ -381,9 +384,9 @@ export function DetailsPageContent() {
                             : "#"
                         }
                         onClick={(e) => !isFormValid && e.preventDefault()}
-                        className={`flex items-center justify-center gap-2 rounded-full py-3.5 text-base font-semibold text-white transition-all w-full ${
+                        className={`flex items-center justify-center gap-2 rounded-full py-3.5 text-base font-semibold text-white transition-all duration-300 w-full ${
                           isFormValid
-                            ? "bg-gold-500 hover:bg-gold-600 hover:shadow-lg"
+                            ? "bg-gold-500 hover:bg-gold-600 hover:shadow-[0_8px_30px_rgba(201,168,76,0.35)]"
                             : "bg-navy-200 cursor-not-allowed"
                         }`}
                       >

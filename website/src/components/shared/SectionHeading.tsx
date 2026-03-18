@@ -20,16 +20,23 @@ export function SectionHeading({
       }`}
     >
       {label && (
-        <p
-          className={`text-sm font-semibold uppercase tracking-widest ${
+        <span
+          className={`inline-block text-xs font-semibold uppercase tracking-[0.25em] ${
             light ? "text-gold-300" : "text-gold-500"
           }`}
         >
           {label}
-        </p>
+        </span>
+      )}
+      {label && (
+        <div
+          className={`mt-3 w-12 divider-gold ${
+            align === "center" ? "mx-auto" : ""
+          }`}
+        />
       )}
       <h2
-        className={`mt-2 font-serif text-3xl font-bold sm:text-4xl lg:text-5xl ${
+        className={`${label ? "mt-5" : ""} font-serif text-3xl font-bold sm:text-4xl lg:text-5xl ${
           light ? "text-white" : "text-navy-500"
         }`}
       >
@@ -38,7 +45,7 @@ export function SectionHeading({
       {description && (
         <p
           className={`mt-4 text-lg leading-relaxed ${
-            light ? "text-white/70" : "text-navy-300"
+            light ? "text-white/60" : "text-navy-300"
           }`}
         >
           {description}

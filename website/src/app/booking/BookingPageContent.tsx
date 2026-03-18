@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { PACKAGES, formatPrice } from "@/lib/constants";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
+import { PageHero } from "@/components/shared/PageHero";
 import {
   Calendar,
   Clock,
@@ -75,32 +76,22 @@ export function BookingPageContent() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative flex items-center justify-center h-[40vh] min-h-[300px] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-navy-800 via-navy-500 to-sea-500" />
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-sand-50 to-transparent" />
-        <div className="relative z-10 text-center px-4">
-          <h1 className="font-serif text-4xl font-bold text-white sm:text-5xl">
-            Book Your Experience
-          </h1>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-white/70">
-            Choose your experience, pick a date, and we&apos;ll take care of the rest.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        title="Book Your Experience"
+        description="Choose your experience, pick a date, and we'll take care of the rest."
+      />
 
       {/* Step Indicator */}
-      <section className="bg-white border-b border-sand-200">
+      <section className="bg-white border-b border-sand-200/50">
         <div className="mx-auto max-w-4xl px-4 py-4">
           <div className="flex items-center justify-center gap-2 text-sm">
             {["Experience & Date", "Your Details", "Payment", "Confirmation"].map(
               (step, i) => (
                 <div key={step} className="flex items-center gap-2">
                   <div
-                    className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${
+                    className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold transition-all duration-300 ${
                       i === 0
-                        ? "bg-gold-500 text-white"
+                        ? "bg-gold-500 text-white shadow-md shadow-gold-500/30"
                         : "bg-sand-200 text-navy-300"
                     }`}
                   >
@@ -128,7 +119,7 @@ export function BookingPageContent() {
             <div className="lg:col-span-2 space-y-8">
               {/* Package Selection */}
               <AnimatedReveal>
-                <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
+                <div className="rounded-2xl bg-white p-6 shadow-sm border border-sand-200/50 sm:p-8">
                   <h2 className="font-serif text-xl font-bold text-navy-500">
                     1. Choose Your Experience
                   </h2>
@@ -137,14 +128,14 @@ export function BookingPageContent() {
                       <button
                         key={p.slug}
                         onClick={() => setSelectedPackage(p.slug)}
-                        className={`flex items-start gap-3 rounded-xl border-2 p-4 text-left transition-all ${
+                        className={`flex items-start gap-3 rounded-xl border-2 p-4 text-left transition-all duration-300 ${
                           selectedPackage === p.slug
-                            ? "border-gold-500 bg-gold-50/50"
+                            ? "border-gold-500 bg-gold-50/50 shadow-md shadow-gold-500/10"
                             : "border-sand-200 hover:border-navy-200"
                         }`}
                       >
                         <div
-                          className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 ${
+                          className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-300 ${
                             selectedPackage === p.slug
                               ? "border-gold-500 bg-gold-500"
                               : "border-sand-300"
@@ -173,7 +164,7 @@ export function BookingPageContent() {
 
               {/* Date Selection */}
               <AnimatedReveal delay={100}>
-                <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
+                <div className="rounded-2xl bg-white p-6 shadow-sm border border-sand-200/50 sm:p-8">
                   <h2 className="font-serif text-xl font-bold text-navy-500">
                     2. Pick a Date
                   </h2>
@@ -226,9 +217,9 @@ export function BookingPageContent() {
                             key={day}
                             disabled={!available}
                             onClick={() => setSelectedDate(dateStr)}
-                            className={`rounded-lg py-2.5 text-sm transition-all ${
+                            className={`rounded-lg py-2.5 text-sm transition-all duration-300 ${
                               isSelected
-                                ? "bg-gold-500 text-white font-bold"
+                                ? "bg-gold-500 text-white font-bold shadow-md shadow-gold-500/30"
                                 : available
                                   ? "text-navy-500 hover:bg-gold-50 font-medium"
                                   : "text-navy-200 cursor-not-allowed"
@@ -246,7 +237,7 @@ export function BookingPageContent() {
               {/* Time Selection */}
               {selectedDate && (
                 <AnimatedReveal delay={200}>
-                  <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
+                  <div className="rounded-2xl bg-white p-6 shadow-sm border border-sand-200/50 sm:p-8">
                     <h2 className="font-serif text-xl font-bold text-navy-500">
                       3. Choose a Time
                     </h2>
@@ -255,9 +246,9 @@ export function BookingPageContent() {
                         <button
                           key={slot.time}
                           onClick={() => setSelectedTime(slot.time)}
-                          className={`rounded-xl border-2 p-4 text-center transition-all ${
+                          className={`rounded-xl border-2 p-4 text-center transition-all duration-300 ${
                             selectedTime === slot.time
-                              ? "border-gold-500 bg-gold-50/50"
+                              ? "border-gold-500 bg-gold-50/50 shadow-md shadow-gold-500/10"
                               : "border-sand-200 hover:border-navy-200"
                           }`}
                         >
@@ -274,8 +265,8 @@ export function BookingPageContent() {
             {/* Summary Sidebar */}
             <div className="lg:col-span-1">
               <div className="sticky top-24">
-                <AnimatedReveal>
-                  <div className="rounded-2xl bg-white p-6 shadow-lg">
+                <AnimatedReveal variant="fadeRight">
+                  <div className="rounded-2xl bg-white p-6 shadow-lg border border-sand-200/50">
                     <h3 className="font-serif text-lg font-bold text-navy-500">
                       Booking Summary
                     </h3>
@@ -332,9 +323,9 @@ export function BookingPageContent() {
                           ? `/booking/details?package=${selectedPackage}&date=${selectedDate}&time=${selectedTime}`
                           : "#"
                       }
-                      className={`mt-6 flex items-center justify-center gap-2 rounded-full py-3.5 text-base font-semibold text-white transition-all w-full ${
+                      className={`mt-6 flex items-center justify-center gap-2 rounded-full py-3.5 text-base font-semibold text-white transition-all duration-300 w-full ${
                         canContinue
-                          ? "bg-gold-500 hover:bg-gold-600 hover:shadow-lg"
+                          ? "bg-gold-500 hover:bg-gold-600 hover:shadow-[0_8px_30px_rgba(201,168,76,0.35)]"
                           : "bg-navy-200 cursor-not-allowed"
                       }`}
                       onClick={(e) => !canContinue && e.preventDefault()}

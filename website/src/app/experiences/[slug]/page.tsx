@@ -1,30 +1,17 @@
+"use client";
+
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import { PACKAGES, ADD_ONS, formatPrice } from "@/lib/constants";
 import { AnimatedReveal } from "@/components/shared/AnimatedReveal";
+import { PageHero } from "@/components/shared/PageHero";
 import { Clock, Users, Check, ArrowRight, Star } from "lucide-react";
+import { motion } from "framer-motion";
 
-interface Props {
-  params: Promise<{ slug: string }>;
-}
-
-export async function generateStaticParams() {
-  return PACKAGES.map((pkg) => ({ slug: pkg.slug }));
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const pkg = PACKAGES.find((p) => p.slug === slug);
-  if (!pkg) return {};
-  return {
-    title: pkg.name,
-    description: pkg.description,
-  };
-}
-
-export default async function ExperienceDetailPage({ params }: Props) {
-  const { slug } = await params;
+export default function ExperienceDetailPage() {
+  const params = useParams();
+  const slug = params.slug as string;
   const pkg = PACKAGES.find((p) => p.slug === slug);
   if (!pkg) notFound();
 
@@ -33,46 +20,33 @@ export default async function ExperienceDetailPage({ params }: Props) {
   return (
     <>
       {/* Hero */}
-      <section className="relative flex items-end h-[60vh] min-h-[500px] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-navy-800 via-navy-500 to-sea-500" />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-navy-900/20 to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-sand-50 to-transparent" />
-
-        <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-          <div className="max-w-2xl">
-            <span className="rounded-full bg-gold-500/90 px-4 py-1.5 text-xs font-semibold text-white uppercase tracking-wider">
-              {pkg.category === "romantic"
-                ? "Romantic"
-                : pkg.category === "adventure"
-                  ? "Adventure"
-                  : pkg.category === "group"
-                    ? "Group Experience"
-                    : "Custom"}
-            </span>
-            <h1 className="mt-4 font-serif text-4xl font-bold text-white sm:text-5xl">
-              {pkg.name}
-            </h1>
-            <p className="mt-3 text-lg text-white/80">{pkg.tagline}</p>
-            <div className="mt-6 flex items-center gap-6 text-sm text-white/70">
-              <span className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                {pkg.duration}
-              </span>
-              <span className="flex items-center gap-2">
-                <Users className="h-4 w-4" />
-                Up to {pkg.maxGuests} guests
-              </span>
-              <span className="flex items-center gap-2">
-                <Star className="h-4 w-4 fill-gold-400 text-gold-400" />
-                5.0
-              </span>
-            </div>
-          </div>
+      <PageHero label={
+        pkg.category === "romantic"
+          ? "Romantic"
+          : pkg.category === "adventure"
+            ? "Adventure"
+            : pkg.category === "group"
+              ? "Group Experience"
+              : "Custom"
+      } title={pkg.name} description={pkg.tagline}>
+        <div className="mt-6 flex items-center justify-center gap-6 text-sm text-white/60">
+          <span className="flex items-center gap-2">
+            <Clock className="h-4 w-4" />
+            {pkg.duration}
+          </span>
+          <span className="flex items-center gap-2">
+            <Users className="h-4 w-4" />
+            Up to {pkg.maxGuests} guests
+          </span>
+          <span className="flex items-center gap-2">
+            <Star className="h-4 w-4 fill-gold-400 text-gold-400" />
+            5.0
+          </span>
         </div>
-      </section>
+      </PageHero>
 
       {/* Content */}
-      <section className="py-16 bg-sand-50">
+      <section className="py-20 bg-sand-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-3">
             {/* Main Content */}
@@ -97,7 +71,7 @@ export default async function ExperienceDetailPage({ params }: Props) {
                     {pkg.inclusions.map((item) => (
                       <li
                         key={item}
-                        className="flex items-start gap-3 rounded-xl bg-white p-4 shadow-sm"
+                        className="flex items-start gap-3 rounded-xl bg-white p-4 shadow-sm border border-sand-200/50 transition-all duration-300 hover:shadow-md hover:border-gold-200/50"
                       >
                         <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gold-100">
                           <Check className="h-3 w-3 text-gold-600" />
@@ -118,7 +92,7 @@ export default async function ExperienceDetailPage({ params }: Props) {
                     {pkg.highlights.map((highlight) => (
                       <div
                         key={highlight}
-                        className="flex items-center gap-3 rounded-xl border border-sand-200 p-4"
+                        className="flex items-center gap-3 rounded-xl border border-sand-200/50 bg-white p-4 transition-all duration-300 hover:border-gold-200/50 hover:shadow-sm"
                       >
                         <div className="h-2 w-2 rounded-full bg-gold-400 shrink-0" />
                         <span className="text-sm font-medium text-navy-400">
@@ -142,7 +116,7 @@ export default async function ExperienceDetailPage({ params }: Props) {
                     {ADD_ONS.map((addon) => (
                       <div
                         key={addon.id}
-                        className="flex items-center justify-between rounded-xl bg-white p-4 shadow-sm"
+                        className="flex items-center justify-between rounded-xl bg-white p-4 shadow-sm border border-sand-200/50 transition-all duration-300 hover:shadow-md hover:border-gold-200/50"
                       >
                         <div>
                           <p className="text-sm font-medium text-navy-500">
@@ -165,8 +139,8 @@ export default async function ExperienceDetailPage({ params }: Props) {
             {/* Sidebar - Booking Card */}
             <div className="lg:col-span-1">
               <div className="sticky top-24">
-                <AnimatedReveal>
-                  <div className="rounded-2xl bg-white p-6 shadow-lg">
+                <AnimatedReveal variant="fadeRight">
+                  <div className="rounded-2xl bg-white p-6 shadow-lg border border-sand-200/50">
                     <div className="text-center">
                       <p className="text-sm text-navy-300">Starting from</p>
                       <p className="mt-1 font-serif text-3xl font-bold text-navy-500">
@@ -204,7 +178,7 @@ export default async function ExperienceDetailPage({ params }: Props) {
 
                     <Link
                       href={`/booking?package=${pkg.slug}`}
-                      className="mt-6 block w-full rounded-full bg-gold-500 py-3.5 text-center text-base font-semibold text-white transition-all hover:bg-gold-600 hover:shadow-lg"
+                      className="mt-6 block w-full rounded-full bg-gold-500 py-3.5 text-center text-base font-semibold text-white transition-all duration-300 hover:bg-gold-600 hover:shadow-[0_8px_30px_rgba(201,168,76,0.35)]"
                     >
                       Book This Experience
                     </Link>
@@ -220,7 +194,7 @@ export default async function ExperienceDetailPage({ params }: Props) {
 
           {/* Related */}
           <div className="mt-24">
-            <AnimatedReveal>
+            <AnimatedReveal variant="blurIn">
               <h2 className="font-serif text-2xl font-bold text-navy-500">
                 You Might Also Love
               </h2>
@@ -228,24 +202,29 @@ export default async function ExperienceDetailPage({ params }: Props) {
             <div className="mt-8 grid gap-8 md:grid-cols-2">
               {otherPackages.map((other, i) => (
                 <AnimatedReveal key={other.slug} delay={i * 150}>
-                  <Link
-                    href={`/experiences/${other.slug}`}
-                    className="group flex overflow-hidden rounded-2xl bg-white shadow-sm transition-all hover:shadow-lg"
+                  <motion.div
+                    whileHover={{ y: -4 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   >
-                    <div className="w-1/3 bg-gradient-to-br from-navy-400 to-sea-500 shrink-0" />
-                    <div className="p-6">
-                      <h3 className="font-serif text-lg font-bold text-navy-500 group-hover:text-gold-600 transition-colors">
-                        {other.name}
-                      </h3>
-                      <p className="mt-1 text-sm text-navy-300 line-clamp-2">
-                        {other.tagline}
-                      </p>
-                      <div className="mt-3 flex items-center gap-1 text-sm font-medium text-gold-500">
-                        From {formatPrice(other.price)}
-                        <ArrowRight className="h-3.5 w-3.5 ml-1 transition-transform group-hover:translate-x-1" />
+                    <Link
+                      href={`/experiences/${other.slug}`}
+                      className="group flex overflow-hidden rounded-2xl bg-white shadow-sm border border-sand-200/50 transition-shadow duration-500 hover:shadow-lg"
+                    >
+                      <div className="w-1/3 bg-gradient-to-br from-navy-400 to-sea-500 shrink-0 transition-transform duration-700 group-hover:scale-[1.02]" />
+                      <div className="p-6">
+                        <h3 className="font-serif text-lg font-bold text-navy-500 group-hover:text-gold-600 transition-colors duration-300">
+                          {other.name}
+                        </h3>
+                        <p className="mt-1 text-sm text-navy-300 line-clamp-2">
+                          {other.tagline}
+                        </p>
+                        <div className="mt-3 flex items-center gap-1 text-sm font-medium text-gold-500">
+                          From {formatPrice(other.price)}
+                          <ArrowRight className="h-3.5 w-3.5 ml-1 transition-transform duration-300 group-hover:translate-x-2" />
+                        </div>
                       </div>
-                    </div>
-                  </Link>
+                    </Link>
+                  </motion.div>
                 </AnimatedReveal>
               ))}
             </div>
