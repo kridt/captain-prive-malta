@@ -1,0 +1,104 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-navy-50: #e8ecf2;
+  --color-navy-100: #c5cede;
+  --color-navy-200: #9eadc4;
+  --color-navy-300: #778da9;
+  --color-navy-400: #596f8e;
+  --color-navy-500: #1a2744;
+  --color-navy-600: #172340;
+  --color-navy-700: #131d35;
+  --color-navy-800: #0f172a;
+  --color-navy-900: #0c1425;
+
+  --color-gold-50: #fdf8eb;
+  --color-gold-100: #f9edcc;
+  --color-gold-200: #f3dcaa;
+  --color-gold-300: #e6c56e;
+  --color-gold-400: #d4ad54;
+  --color-gold-500: #c9a84c;
+  --color-gold-600: #b8943f;
+  --color-gold-700: #9a7a33;
+  --color-gold-800: #7d6229;
+  --color-gold-900: #604b1f;
+
+  --color-sand-50: #faf8f5;
+  --color-sand-100: #f5f0e8;
+  --color-sand-200: #ebe0cf;
+  --color-sand-300: #ddd0b8;
+  --color-sand-400: #c9b89a;
+
+  --color-sea-100: #d0eaf5;
+  --color-sea-200: #a8d7ec;
+  --color-sea-300: #7ec8e3;
+  --color-sea-400: #55b0d4;
+  --color-sea-500: #3a8fb7;
+
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-sand-50);
+    color: var(--color-navy-800);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-serif);
+    color: var(--color-navy-500);
+  }
+
+  ::selection {
+    background-color: var(--color-gold-200);
+    color: var(--color-navy-800);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Smooth fade-in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.7s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
